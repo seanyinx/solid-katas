@@ -1,28 +1,20 @@
 package com.github.seanyinx.solid.event.worker;
 
-import org.apache.curator.x.discovery.ServiceInstance;
-import org.apache.curator.x.discovery.ServiceProvider;
+public class EventWorker<T> {
+  private final UriBuilder<T> builder;
 
-public class EventWorker {
-    private final ServiceProvider<Profile> serviceProvider;
+  private final ContentFetcher fetcher;
 
-    public EventWorker(ServiceProvider<Profile> serviceProvider) {
-        this.serviceProvider = serviceProvider;
-    }
+  private final ContentProcessor processor;
 
-    public String run() throws Exception {
-        ServiceInstance<Profile> instance = serviceProvider.getInstance();
-        String uri = instance.buildUriSpec();
+  public EventWorker(UriBuilder<T> builder, ContentFetcher fetcher,
+      ContentProcessor processor) {
+    this.builder = builder;
+    this.fetcher = fetcher;
+    this.processor = processor;
+  }
 
-        String json = fetch(uri);
-        return process(json);
-    }
-
-    private String fetch(String uri) {
-        return String.format("{\"uri\":\"%s\"}", uri);
-    }
-
-    private String process(String json) {
-        return json;
-    }
+  public String run() throws Exception {
+    return processor.process(fetcher.fetch(builder.buildUri()));
+  }
 }
