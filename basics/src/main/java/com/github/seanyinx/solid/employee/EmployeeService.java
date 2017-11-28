@@ -1,17 +1,11 @@
 package com.github.seanyinx.solid.employee;
 
-public class EmployeeService {
-    private final EmployeeRepository employeeRepository;
+import java.sql.SQLException;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
+public interface EmployeeService {
+  Employee addEmployee(int id, String name, double salary);
 
-    Employee addEmployee(int id, String name, double salary) {
-        Employee employee = new Employee(id, name, salary, employeeRepository);
+  void save(Employee employee);
 
-        employee.save();
-
-        return employee;
-    }
+  Employee findById(int id) throws SQLException;
 }
