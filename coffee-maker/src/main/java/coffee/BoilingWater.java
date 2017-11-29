@@ -27,17 +27,17 @@ public class BoilingWater implements DealWater {
   }
 
   private boolean boilingWalter() {
-    boolean hasBoilingWater = false;
-    while (!hasBoilingWater) {
-      for (int i = 0; i < MAX_WATER_MACHINE_COUNT; i++) {
-        if (isBoiling(i)) {
-          hasBoilingWater = true;
-          break;
-        }
+    int leftCount = MAX_WATER_MACHINE_COUNT;
+    while (leftCount > 0) {
+      if (isBoiling(MAX_WATER_MACHINE_COUNT - leftCount)) {
+        break;
+      } else {
+        leftCount--;
       }
+
       dawdling();
     }
-    return hasBoilingWater;
+    return leftCount > 0;
   }
 
   private boolean isBoiling(int indexOfBoiler) {
