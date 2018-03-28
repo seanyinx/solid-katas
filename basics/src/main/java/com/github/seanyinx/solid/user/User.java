@@ -4,14 +4,16 @@ import java.util.Date;
 
 public class User {
     private final String username;
+    private final DateGenerator dateGenerator;
     private Date lastLoginTime;
 
     public User(String username) {
         this.username = username;
-        this.lastLoginTime = new Date();
+        this.dateGenerator = new DateGenerator();
+        this.lastLoginTime = dateGenerator.newDate();
     }
 
     void login() {
-        lastLoginTime = new Date();
+        lastLoginTime = dateGenerator.newDate();
     }
 }
